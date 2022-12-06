@@ -1,11 +1,16 @@
 import {FC} from "react";
 import '../css/Header.css';
 
-const Header:FC = () => {
+
+type Props ={
+    text: string;
+}
+
+const Header:FC<Props> = ({text}) => {
     return (
         <div>
             <div className="headerTitle">
-                HeaderComponent
+                {text}
             </div>
         </div>
     );
