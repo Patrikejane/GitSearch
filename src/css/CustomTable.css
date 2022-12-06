@@ -1,0 +1,11 @@
+.customTableWrapper{
+    text-align: center;
+    width:100%
+}
+.customTable table, th, td {
+    border:1px solid black;
+}
+
+.customTable{
+    width: 100%;
+}

@@ -4,7 +4,7 @@ import '../css/Header.css';
 const Header:FC = () => {
     return (
         <div>
-            <div className="HeaderTitle">
+            <div className="headerTitle">
                 HeaderComponent
             </div>
         </div>

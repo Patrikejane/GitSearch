@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import SearchBar from "./components/SearchBar";
 import Header from "./components/Header";
+import CustomTable from "./components/CustomTable";
 
 const App = () => {
 
@@ -10,6 +11,7 @@ const App = () => {
     <div className="App">
         <Header />
         <SearchBar></SearchBar>
+        <CustomTable></CustomTable>
     </div>
   );
 }
