@@ -1,0 +1,11 @@
+.searchBarTitle{
+    background: #61dafb;
+    width: 100%;
+    padding: 40px 0px;
+    text-align: center;
+}
+
+.searchButtonGroup{
+    margin: 20px;
+    text-align: center;
+}
