@@ -10,7 +10,7 @@ const CustomTable:FC = () => {
 
     const loadData = async () => {
         try {
-            const response = await fetch("https://api.github.com/search/repositories?q=react&per_page=100&page=1");
+            const response = await fetch("https://api.github.com/search/repositories?q=react&per_page=20&page=1");
             const data = await response.json();
             console.log(data);
             setRepositories(data);
