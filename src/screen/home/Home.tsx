@@ -2,6 +2,7 @@ import SearchBar from "../../components/SearchBar";
 import Header from "../../components/Header";
 import CustomTable from "../../components/CustomTable";
 import { useEffect, useState } from "react";
+import {throttle} from "../../utils";
 
 const BASE_URL = "https://api.github.com"
 
@@ -25,14 +26,14 @@ const Home = () => {
 
   const onChangeText = (text: string) => {
     setText(text);
-    getRepositories(text);
+    throttle(getRepositories(text),3000);
   }
 
   return (
     <>
       <Header text={"GitSearch"} />
       <SearchBar onChangeText={onChangeText} />
-      <CustomTable data={repositories} pages={totalPages} onChange={(currentPage) => { getRepositories(text,currentPage);}}/>
+      <CustomTable data={repositories} pages={totalPages} onChange={(currentPage) => { getRepositories(text,currentPage)}}/>
     </>
   );
 };
