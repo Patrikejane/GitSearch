@@ -7,12 +7,12 @@ import Row from "../components/Row";
 type Props = {
     data: any;
     pages : number;
+    onChange: (page: number) => void;
 };
 
-const CustomTable:FC<Props> = ({ data = [], pages = 0}) => {
+const CustomTable:FC<Props> = ({ data = [], pages = 0,onChange}) => {
 
     const [page, setPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(10);
 
     const handlePrevPage = (prevPage: number) => {
         setPage((prevPage) => prevPage - 1);
@@ -22,12 +22,9 @@ const CustomTable:FC<Props> = ({ data = [], pages = 0}) => {
         setPage((nextPage) => nextPage + 1);
     };
 
-    // // after render hook
-    // useEffect(() => {
-    //     // loadData();
-    // }, [page])
-    //
-
+    useEffect(() =>{
+        onChange(page);
+    },[page])
 
     return (
             <div className="customTableWrapper">

@@ -7,14 +7,14 @@ const BASE_URL = "https://api.github.com"
 
 const Home = () => {
   const [repositories, setRepositories] = useState([]);
-  const [page, setPage] = useState(1);
+  const [text, setText] = useState("");
   const [totalPages, setTotalPages] = useState(10);
 
 
-  const getRepositories = async (searchText: string) => {
+  const getRepositories = async (searchText: string,currentPage:number = 1) => {
     try {
       const response = await fetch(
-        `${BASE_URL}/search/repositories?q=${searchText}&per_page=10&page=${page}`
+        `${BASE_URL}/search/repositories?q=${searchText}&per_page=10&page=${currentPage}`
       );
       const data = await response.json();
       console.log("result count",data.total_count);
@@ -24,15 +24,15 @@ const Home = () => {
   };
 
   const onChangeText = (text: string) => {
-    // console.log('text ', text)
-    getRepositories(text)
+    setText(text);
+    getRepositories(text);
   }
 
   return (
     <>
       <Header text={"GitSearch"} />
       <SearchBar onChangeText={onChangeText} />
-      <CustomTable data={repositories} pages={totalPages}/>
+      <CustomTable data={repositories} pages={totalPages} onChange={(currentPage) => { getRepositories(text,currentPage);}}/>
     </>
   );
 };
