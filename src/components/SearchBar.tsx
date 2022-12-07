@@ -1,33 +1,27 @@
 import {FC, useEffect, useState} from "react";
 import '../css/SearchBar.css';
+// import { throttle } from "../utils";
 
 type Props = {
-    onChangeText: (searchText: string) => void;
+    onChangeText: any
 }
 
-const SearchBar:FC<Props> = (props) =>{
-    const [value, setValue] = useState("")
+const SearchBar:FC<Props> = ({ onChangeText }) =>{
+    const [text, setText] = useState("");
 
-    const onChange = (event: any) => {
-        setValue(event.target.value);
-    }
+    // const updateThrottleText = throttle((str: string) => {
+    //     setText(str);
+    // })
 
-    const handleOnClick = () =>{
-        // console.log("test");
-        // console.log(value)
-        props.onChangeText(value);
-    }
+    useEffect(() => {
+        onChangeText(text);
+    }, [text])
 
     return (
         <div>
             <div className="searchButtonGroup">
-                <input
-                    name="Search"
-                    type="text"
-                    placeholder={"Type..."}
-                    value={value}
-                    onChange={onChange}/>
-                <button onClick={handleOnClick}>Search</button>
+                <input type="text" value={text} onChange={event => setText(event.target.value)}/>
+                <button>Search</button>
             </div>
         </div>
     )

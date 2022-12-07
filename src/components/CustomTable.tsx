@@ -2,36 +2,17 @@ import React, {FC, useEffect, useState} from "react";
 import '../css/CustomTable.css'
 import IRepository from "../model/Repository";
 import Pagination from "./Pagination";
+import Row from "../components/Row";
 
 type Props = {
-    text:string
-}
+    data: any;
+    pages : number;
+};
 
-const CustomTable:FC<Props> = ({text}) => {
+const CustomTable:FC<Props> = ({ data = [], pages = 0}) => {
 
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(10);
-
-    const [repositories, setRepositories] = useState<IRepository>({
-        items: []
-    })
-
-    const loadData = async () => {
-        try {
-            const response = await fetch(`https://api.github.com/search/repositories?q=${text}&per_page=20&page=${page}`);
-            const data = await response.json();
-            // console.log(data);
-            // console.log("data loaded");
-            // console.log("page",data.total_count)
-            // console.log(Math.ceil(data.total_count/20))
-            setTotalPages(Math.ceil(data.total_count/20))
-            setRepositories(data);
-            return data;
-
-        } catch (error) {
-            setRepositories({items: []})
-        }
-    }
 
     const handlePrevPage = (prevPage: number) => {
         setPage((prevPage) => prevPage - 1);
@@ -41,38 +22,35 @@ const CustomTable:FC<Props> = ({text}) => {
         setPage((nextPage) => nextPage + 1);
     };
 
-    // after render hook
-    useEffect(() => {
-        loadData();
-    }, [text,page])
-
+    // // after render hook
+    // useEffect(() => {
+    //     // loadData();
+    // }, [page])
+    //
 
 
     return (
             <div className="customTableWrapper">
                 <table className="customTable">
-                    <thead>
-                        <tr>
-                            <th>full_name</th>
-                            <th>description</th>
-                            <th>owner</th>
-                        </tr>
-                    </thead>
                     <tbody>
-                        {
-                            repositories.items?.map((rep: any) =>
-                                <tr key={rep.id}>
-                                <td>{rep.full_name}</td>
-                                <td>{rep.description}</td>
-                                <td>{rep.owner.login}</td>
-                                </tr>
-                            )
-                        }
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Owner</th>
+                    </tr>
+                    {data.map((item: any) => (
+                        <Row
+                            key={item.id}
+                            full_name={item.full_name}
+                            login={item.owner.login}
+                            description={item.description}
+                        />
+                    ))}
                     </tbody>
                 </table>
 
                 <Pagination
-                    totalPages={totalPages}
+                    totalPages={pages}
                     currentPage={page}
                     handlePrevPage={handlePrevPage}
                     handleNextPage={handleNextPage}
