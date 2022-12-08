@@ -1,16 +1,18 @@
 import SearchBar from "../../components/SearchBar";
 import Header from "../../components/Header";
 import CustomTable from "../../components/CustomTable";
-import {useCallback, useEffect, useState} from "react";
+import { useState} from "react";
 // import {throttle} from "../../utils";
-import {throttle}  from "lodash";
+// import {throttle}  from "lodash";
 
 const BASE_URL = "https://api.github.com"
-
+let tempTime: any;
 const Home = () => {
   const [repositories, setRepositories] = useState([]);
   const [text, setText] = useState("react");
+  const [searchText, setsearchText] = useState("");
   const [totalPages, setTotalPages] = useState(10);
+  const [isThrotteling, setIsThrotteling] = useState(false);
   // const [shouldWait,setShouldWait] = useState<boolean>(false);
 
   const getRepositories:any = async (searchText: string,currentPage:number = 1) => {
@@ -26,12 +28,38 @@ const Home = () => {
   };
 
   const onChangeText = (text: string) => {
-    setText(text);
-    throttledAttempts();
+    console.log("🚀 ~ file: Home.tsx:39 ~ onChangeText ~ text", text);
+    setsearchText(text);
+    testThrottle();
 
   }
 
-  const throttledAttempts =  throttle(() =>{getRepositories(text)}, 5000);
+  const runSearch = () => {
+    getRepositories(searchText);
+  };
+
+  const testThrottle = () => {
+    console.log("🚀 ~ file: Home.tsx:48 ~ onChangeText ~ text", searchText);
+    if (!isThrotteling) {
+      runSearch();
+      setIsThrotteling(true);
+      console.log(
+          "🚀 ~ file: Home.tsx:55 ~ useEffect ~ isThrotteling",
+          isThrotteling
+      );
+      tempTime = setTimeout(() => afterThrottle(), 5000);
+    }
+  };
+
+  const afterThrottle = () => {
+    console.log("🚀 ~ file: Home.tsx:62 ~ onChangeText ~ text", searchText);
+    runSearch();
+
+    setIsThrotteling(false);
+    clearTimeout(tempTime);
+  };
+
+  // const throttledAttempts =  throttle(() =>{getRepositories(text)}, 5000);
 
   return (
     <>
